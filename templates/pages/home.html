@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Welcome to my Wall 
+<div id = 'wall'>
+    Loading me
+</div>
+
+
+<script>
+    const wallElement = document.getElementById("wall")
+    const xhr = new XMLHttpRequest() 
+    const method = 'GET'
+    const url = "/wall"
+    const responseType ="json"
+
+    xhr.responseType = responseType
+    xhr.open(method, url)
+    xhr.onload = function(){
+        const serverReponse = xhr.response
+        var listedItems = serverReponse.response
+        let finalWallStr = ""
+        var i;
+        for (i=0; i<listedItems.length; i++){
+            console.log(i)
+            console.log(listedItems[i])
+            var currentItem = "<div class = 'mb-4'><h1>" + listedItems[i].id + "</h1>" + "<p>" +listedItems[i].content + "</p></div>"        
+            finalWallStr += currentItem
+        }
+        wallElement.innerHTML = finalWallStr  
+    }
+    xhr.send()
+</script>
+
+{% endblock content %}
